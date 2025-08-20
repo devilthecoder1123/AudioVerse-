@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Providers from "../providers/provider";
+import Providers from "../providers/providers";
 
 export const metadata: Metadata = {
   title: "My Book Store",
@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-background">
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-background" suppressHydrationWarning>
         <Providers>
           <TooltipProvider>
             <Toaster />

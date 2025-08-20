@@ -1,8 +1,7 @@
 // Shopping cart with authentication requirements
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Audiobook } from "../audiobookdata/audiobookdata";
-import { useAuthStore } from "../services/auth";
+import { Audiobook } from "../audiobookdata/audiobook-data";
 
 export interface CartItem {
   audiobook: Audiobook;
@@ -16,10 +15,7 @@ interface CartState {
   isOpen: boolean;
 
   // Actions
-  addItem: (
-    audiobook: Audiobook,
-    requireAuth?: boolean
-  ) => { success: boolean; error?: string };
+  addItem: (audiobook: Audiobook) => { success: boolean; error?: string };
   removeItem: (audiobookId: string) => void;
   updateQuantity: (audiobookId: string, quantity: number) => void;
   clearCart: () => void;
@@ -37,19 +33,9 @@ export const useCartStore = create<CartState>()(
       total: 0,
       isOpen: false,
 
-      addItem: (audiobook: Audiobook, requireAuth = true) => {
-        // Check if authentication is required
-        if (requireAuth) {
-          // Import here to avoid circular dependency
-          const { isAuthenticated } = useAuthStore.getState();
-
-          if (!isAuthenticated) {
-            return {
-              success: false,
-              error: "Please log in to add items to your cart",
-            };
-          }
-        }
+      addItem: (audiobook: Audiobook) => {
+        // Authentication check is now handled in the useCart hook
+        // This allows for better separation of concerns
 
         const items = get().items;
         const existingItem = items.find(

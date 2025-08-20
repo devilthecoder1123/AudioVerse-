@@ -46,7 +46,10 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
       login: async (email: string, password: string) => {
-        // Mock authentication
+        // Mock authentication - validate password length
+        if (password.length < 6) {
+          return false;
+        }
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const mockUser: User = {
           id: "1",
@@ -58,7 +61,10 @@ export const useAuthStore = create<AuthState>()(
         return true;
       },
       register: async (email: string, password: string, name: string) => {
-        // Mock registration
+        // Mock registration - validate password length
+        if (password.length < 6) {
+          return false;
+        }
         await new Promise((resolve) => setTimeout(resolve, 1000));
         const mockUser: User = {
           id: Date.now().toString(),
@@ -154,17 +160,25 @@ export const useCartStore = create<CartState>()(
 interface AppState {
   searchQuery: string;
   selectedGenre: string;
-  sortBy: "title" | "price" | "rating" | "newest";
+  sortBy: "title" | "author" | "price" | "rating" | "duration" | "newest";
+  currentPage: number;
+  booksPerPage: number;
   setSearchQuery: (query: string) => void;
   setSelectedGenre: (genre: string) => void;
-  setSortBy: (sort: "title" | "price" | "rating" | "newest") => void;
+  setSortBy: (sort: "title" | "author" | "price" | "rating" | "duration" | "newest") => void;
+  setCurrentPage: (page: number) => void;
+  resetPagination: () => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
   searchQuery: "",
-  selectedGenre: "",
+  selectedGenre: "All",
   sortBy: "newest",
-  setSearchQuery: (query) => set({ searchQuery: query }),
-  setSelectedGenre: (genre) => set({ selectedGenre: genre }),
-  setSortBy: (sort) => set({ sortBy: sort }),
+  currentPage: 1,
+  booksPerPage: 8,
+  setSearchQuery: (query) => set({ searchQuery: query, currentPage: 1 }),
+  setSelectedGenre: (genre) => set({ selectedGenre: genre, currentPage: 1 }),
+  setSortBy: (sort) => set({ sortBy: sort, currentPage: 1 }),
+  setCurrentPage: (page) => set({ currentPage: page }),
+  resetPagination: () => set({ currentPage: 1 }),
 }));
