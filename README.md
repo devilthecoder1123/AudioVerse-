@@ -2,6 +2,9 @@
 
 A modern, production-ready audiobook store built with **Next.js 14**, **TypeScript**, and **Tailwind CSS**. Features a sophisticated audio-inspired design with smooth animations, authentication-based navigation, and a premium user experience following React architecture best practices.
 
+
+## Live demo link :-  https://audiverse-nexus-ai.vercel.app/
+
 ## 🎧 Features
 
 ### Core Functionality
